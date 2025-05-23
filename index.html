@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adminų Statistika</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Adminų Statistika</h1>
+  </header>
+
+  <main>
+    <section class="admin-list">
+      <h2>Pasirinkite adminą</h2>
+      <ul id="adminButtons">
+        <!-- Mygtukai sugeneruojami per JS -->
+      </ul>
+    </section>
+
+    <section class="stats">
+      <h2 id="adminName">Pasirinkite adminą</h2>
+      <div id="statsOutput">
+        <!-- Statistika bus čia įdėta per JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Skrydis Serveris</p>
+  </footer>
+
+  <script>
+    const data = {
+      "NeDraugas": {
+        commands: { tp: 30, ban: 3, msg: 80 },
+        time_spent: { spawn: "2h 10m", survival: "4h 5m" },
+        helped_players: 12
+      },
+      "KitasAdminas": {
+        commands: { tp: 20, mute: 5, msg: 30 },
+        time_spent: { minigames: "1h 25m", survival: "3h 15m" },
+        helped_players: 7
+      }
+    };
+
+    const adminButtons = document.getElementById("adminButtons");
+    const statsOutput = document.getElementById("statsOutput");
+    const adminName = document.getElementById("adminName");
+
+    Object.keys(data).forEach(name => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.textContent = name;
+      btn.onclick = () => showStats(name);
+      li.appendChild(btn);
+      adminButtons.appendChild(li);
+    });
+
+    function showStats(name) {
+      adminName.textContent = `Statistika: ${name}`;
+      const admin = data[name];
+      statsOutput.innerHTML = `
+        <h3>Komandos</h3>
+        <ul>
+          ${Object.entries(admin.commands).map(([cmd, count]) => `<li>${cmd}: ${count}</li>`).join('')}
+        </ul>
+        <h3>Laikas pasauliuose</h3>
+        <ul>
+          ${Object.entries(admin.time_spent).map(([world, time]) => `<li>${world}: ${time}</li>`).join('')}
+        </ul>
+        <p><strong>Padėti žaidėjai:</strong> ${admin.helped_players}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
